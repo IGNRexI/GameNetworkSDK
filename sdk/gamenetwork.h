@@ -1,9 +1,9 @@
 #ifndef GAMENETWORK_H
 #define GAMENETWORK_H
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdint.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #ifdef _WIN32
@@ -11,26 +11,21 @@
 #else
 #include <arpa/inet.h>
 #endif
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-#include "gamenetwork_types.h"
+// --- Tüm struct ve typedef'ler burada ---
 
-// Sunucu ve istemci tanımları için ileri bildirimler
+typedef struct gnet_socket_s gnet_socket_t;
 typedef struct gns_server_s gns_server_t;
 typedef struct gns_client_s gns_client_t;
+typedef struct gnet_event_queue_s gnet_event_queue_t;
+typedef struct gnet_event_t gnet_event_t;
 
-// Callback tipi
+// Fonksiyon pointer typedef'leri
 typedef void (*gns_on_receive_cb)(const char* data, int len);
-
-// Bağlantı event callback tipleri
+typedef void (*gns_on_receive_ex_cb)(gnet_socket_t* client, const char* data, int len);
 typedef void (*gns_on_connect_cb)(int client_id, const struct sockaddr_in* addr);
 typedef void (*gns_on_disconnect_cb)(int client_id);
-
-// Gelişmiş callback tipleri
 typedef void (*gns_on_connect_ex_cb)(gnet_socket_t* client);
-typedef void (*gns_on_receive_ex_cb)(gnet_socket_t* client, const char* data, int len);
 typedef void (*gns_on_disconnect_ex_cb)(gnet_socket_t* client);
 
 // Hata kodları
@@ -198,13 +193,6 @@ int gnet_json_get_str(const char* json, const char* key, char* out, int maxlen);
 int gnet_json_get_int(const char* json, const char* key, int* out);
 
 // Event queue (thread-safe)
-typedef struct gnet_event_queue_s gnet_event_queue_t;
-typedef struct {
-    int type; // 0: message, 1: disconnect, 2: reconnect, 3: timeout, ...
-    int client_id;
-    char data[256];
-    int data_len;
-} gnet_event_t;
 gnet_event_queue_t* gnet_event_queue_create(int max_events);
 void gnet_event_queue_destroy(gnet_event_queue_t* q);
 int gnet_event_queue_push(gnet_event_queue_t* q, const gnet_event_t* ev);

@@ -28,4 +28,8 @@ jobs:
         cl /I sdk /Fe:udp_client_peerlist_relay_example.exe examples/udp_client_peerlist_relay_example.c sdk/gamenetwork.c ws2_32.lib
     - name: Test build output
       run: |
+<<<<<<< HEAD
         dir *.exe 
+=======
+        dir *.exe 
+>>>>>>> 6e98568db8090517bc7b16e66dcc1075ed28af24
