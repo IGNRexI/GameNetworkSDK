@@ -1,3 +1,5 @@
+[![.github/workflows/c-cpp.yml](https://github.com/IGNRexI/GameNetworkSDK/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/IGNRexI/GameNetworkSDK/actions/workflows/c-cpp.yml)
+
 # GameNetworkSDK
 
 Kolay, esnek ve modern TCP/UDP/P2P/Relay oyun ağı SDK'sı
