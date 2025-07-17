@@ -1,0 +1,31 @@
+name: C/C++ CI (Windows)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+    - name: Build all .c files with MSVC
+      run: |
+        cl /I sdk /Fe:server_example.exe examples/server_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:client_example.exe examples/client_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:udp_server_example.exe examples/udp_server_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:udp_client_example.exe examples/udp_client_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:relay_example.exe examples/relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:p2p_with_relay_example.exe examples/p2p_with_relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:p2p_with_udp_relay_example.exe examples/p2p_with_udp_relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:server_peerlist_relay_example.exe examples/server_peerlist_relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:client_peerlist_relay_example.exe examples/client_peerlist_relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:udp_server_peerlist_relay_example.exe examples/udp_server_peerlist_relay_example.c sdk/gamenetwork.c ws2_32.lib
+        cl /I sdk /Fe:udp_client_peerlist_relay_example.exe examples/udp_client_peerlist_relay_example.c sdk/gamenetwork.c ws2_32.lib
+    - name: Test build output
+      run: |
+        dir *.exe 

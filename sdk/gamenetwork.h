@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include "gamenetwork_types.h"
+
 // Sunucu ve istemci tanımları için ileri bildirimler
 typedef struct gns_server_s gns_server_t;
 typedef struct gns_client_s gns_client_t;
